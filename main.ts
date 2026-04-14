@@ -106,7 +106,7 @@ let mySprite4: Sprite = null
 let mySprite2: Sprite = null
 let statusbar: StatusBarSprite = null
 let mySprite: Sprite = null
-info.setLife(20)
+info.setLife(15)
 story.showPlayerChoices("play", "play")
 mySprite = sprites.create(img`
     . . . . . . . . . . . . . . . . 
@@ -161,7 +161,7 @@ if (location == 0) {
 }
 mySprite3.follow(mySprite, 5)
 forever(function () {
-    pause(200)
+    pause(100)
     mySprite4 = sprites.create(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -203,8 +203,10 @@ forever(function () {
     }
 })
 forever(function () {
-    pause(5000)
-    sprites.destroyAllSpritesOfKind(SpriteKind.bad)
+    pause(3000)
+    for (let index = 0; index < 20; index++) {
+        sprites.destroy(mySprite4)
+    }
 })
 forever(function () {
     characterAnimations.loopFrames(
