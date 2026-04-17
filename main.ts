@@ -92,6 +92,9 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Player, function (sprite, otherSprite) {
     info.changeLifeBy(-1)
 })
+scene.onHitWall(SpriteKind.bad, function (sprite, location) {
+    sprites.destroy(mySprite4)
+})
 sprites.onOverlap(SpriteKind.bad, SpriteKind.Player, function (sprite, otherSprite) {
     sprites.destroy(sprite)
     info.changeLifeBy(-1)
@@ -151,13 +154,13 @@ statusbar = statusbars.create(20, 4, StatusBarKind.Health)
 statusbar.value = 250
 statusbar.attachToSprite(mySprite3)
 if (location == 0) {
-    mySprite3.setPosition(134, 54)
+    mySprite3.setPosition(104, 39)
 } else if (location == 1) {
-    mySprite3.setPosition(10, 52)
+    mySprite3.setPosition(58, 49)
 } else if (location == 2) {
-    mySprite3.setPosition(68, 10)
+    mySprite3.setPosition(92, 54)
 } else if (location == 3) {
-    mySprite3.setPosition(76, 97)
+    mySprite3.setPosition(106, 73)
 }
 mySprite3.follow(mySprite, 5)
 forever(function () {
@@ -181,6 +184,8 @@ forever(function () {
         . . . . . . . . . . . . . . . . 
         `, SpriteKind.bad)
     mySprite4.setPosition(mySprite3.x, mySprite3.y)
+    mySprite4.setStayInScreen(false)
+    mySprite4.setFlag(SpriteFlag.DestroyOnWall, true)
     for (let index = 0; index < 40; index++) {
         bullet_place = randint(0, 7)
         if (bullet_place == 0) {
@@ -203,10 +208,12 @@ forever(function () {
     }
 })
 forever(function () {
-    pause(3000)
-    for (let index = 0; index < 20; index++) {
-        sprites.destroy(mySprite4)
+    pause(4000)
+    for (let index = 0; index < 10; index++) {
+        sprites.destroyAllSpritesOfKind(SpriteKind.bad)
+        pause(150)
     }
+    sprites.destroyAllSpritesOfKind(SpriteKind.Projectile)
 })
 forever(function () {
     characterAnimations.loopFrames(
@@ -304,6 +311,12 @@ forever(function () {
 })
 forever(function () {
     if (statusbar.value == 0) {
+    	
+    }
+})
+forever(function () {
+    if (statusbar.value == 0) {
         sprites.destroy(mySprite3, effects.coolRadial, 1000)
+        sprites.destroyAllSpritesOfKind(SpriteKind.bad)
     }
 })
